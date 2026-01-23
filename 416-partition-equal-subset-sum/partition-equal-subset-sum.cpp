@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int dp[205][20005];
+    int dp[201][20001];
     bool arpan(vector<int>&nums,int i,int curr,int sum,bool &check){
         if(check){
             return true;;
