@@ -1,32 +1,21 @@
 class Solution {
 public:
-    
-    long long arpan(vector<int>& nums, int i, int target, int sum,map<string,int>&hash) {
+    int dp[1001][2001];
+    int solve(vector<int>& nums, int i, int sum, int target) {
         if (i == nums.size()) {
-            if (sum == target) {
-                return 1;
-            }
-            return 0;
+            return sum == target;
         }
-        // if(dp[i][sum])/
-        if (i > nums.size()) {
-            return 0;
-        }
-       string key = to_string(i) + "_" + to_string(sum);
-        if(hash.count(key)){
-            return hash[key];
-        }
-        long long plus = arpan(nums, i + 1, target, sum + nums[i],hash);
-        long long minus = arpan(nums, i + 1, target, sum - nums[i],hash);
-      
-        hash[key]= plus + minus;
-        return hash[key];
-    }
-    int findTargetSumWays(vector<int>& nums, int target) {
+        if (dp[i][sum + 1000] != -1)
+            return dp[i][sum + 1000];
 
-        int i = 0;
-        int sum = 0;
-        map<string,int>hash;
-        return arpan(nums, i, target, sum,hash);
+        int plus  = solve(nums, i + 1, sum + nums[i], target);
+        int minus = solve(nums, i + 1, sum - nums[i], target);
+
+        return dp[i][sum + 1000] = plus + minus;
+    }
+
+    int findTargetSumWays(vector<int>& nums, int target) {
+        memset(dp, -1, sizeof(dp));
+        return solve(nums, 0, 0, target);
     }
 };
