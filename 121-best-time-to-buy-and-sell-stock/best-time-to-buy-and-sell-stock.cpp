@@ -7,9 +7,9 @@ public:
         }
         mini=min(mini,prices[i]);
         maxProfit=max(maxProfit,prices[i]-mini);
-        solve(prices,i+1,mini,maxProfit);
         
-        return maxProfit;
+        
+        return solve(prices,i+1,mini,maxProfit);;
     }
     int maxProfit(vector<int>& prices) {
         int maxProfit=0;
