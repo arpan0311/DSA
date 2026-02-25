@@ -1,35 +1,31 @@
 class Solution {
 public:
- int intToBinary(int a){
-        string s="";
-        while(a>0){
-            s+=(a%2+'0');
-            a=a/2;
-        }
-        reverse(s.begin(),s.end());
-        int  cnt=0;
-        for(int i=0;i<s.length();i++){
-            if(s[i]=='1'){
+    int inttobinary(int n){
+        int cnt=0;
+        while(n!=0){
+            if(n%2!=0){
                 cnt++;
             }
+            n=n/2;
         }
         return cnt;
     }
-    static bool cmp(pair<int,int>&p1,pair<int,int>&p2){
-        if(p1.first==p2.first){
-            return p1.second<p2.second;
+    static bool cmp(pair<int,int>&a,pair<int,int>&b){
+        if(a.first==b.first){
+            return a.second<b.second;
         }
-        return p1.first<p2.first;
+        return a.first<b.first;
     }
     vector<int> sortByBits(vector<int>& arr) {
-        vector<pair<int,int>>answer;
+        vector<pair<int,int>>ans;
         for(int i=0;i<arr.size();i++){
-                int val=intToBinary(arr[i]);
-                answer.push_back({val,arr[i]});
+            int val=inttobinary(arr[i]);
+            ans.push_back({val,arr[i]});
         }
-        sort(answer.begin(),answer.end(),cmp);
-        for(int i=0;i<arr.size();i++){
-            arr[i]=answer[i].second;
+        int n=ans.size();
+        sort(ans.begin(),ans.end(),cmp);
+        for(int i=0;i<n;i++){
+            arr[i]=ans[i].second;
         }
         return arr;
     }
