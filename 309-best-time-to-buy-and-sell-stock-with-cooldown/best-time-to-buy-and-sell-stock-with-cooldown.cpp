@@ -1,28 +1,24 @@
 class Solution {
 public:
-    int dp[5001][2];
-    int solve(vector<int>&nums,int i,bool canbuy){
-        if(i>=nums.size()){
-            return 0;
+    int maxProfit(vector<int>& nums) {
+        int n=nums.size();
+        vector<vector<int>>dp(n+2,vector<int>(2,0));
+        for(int i=n-1;i>=0;i--){
+            for(int j=0;j<=1;j++){
+                // can buy
+                int take=0,nottake=0;
+               if(j==1){
+                // buy
+                take=-nums[i]+dp[i+1][0];
+                nottake=dp[i+1][1];
+               }
+               else{
+                take=nums[i]+dp[i+2][1];
+                nottake=dp[i+1][0];
+               }
+               dp[i][j]=max(take,nottake);
+            }
         }
-        if(dp[i][canbuy]!=-1){
-            return dp[i][canbuy];
-        }
-        int take=0,nottake=0;
-        // buy 
-        if(canbuy){
-            take=-nums[i]+solve(nums,i+1,false);
-            nottake=solve(nums,i+1,true);
-            
-        }
-        else{
-            take=nums[i]+solve(nums,i+2,true);
-            nottake=solve(nums,i+1,false);
-        }
-        return dp[i][canbuy]=max(take,nottake);
-    }
-    int maxProfit(vector<int>& prices) {
-        memset(dp,-1,sizeof(dp));
-        return solve(prices,0,true);
+        return dp[0][1];
     }
 };
