@@ -14,7 +14,7 @@ public:
             return -1;
         }
         int ans=xy/2+yx/2;
-        ans+=(yx%2)*2;
+        ans+=(yx%2+yx%2);
         return ans;
     }
 };
