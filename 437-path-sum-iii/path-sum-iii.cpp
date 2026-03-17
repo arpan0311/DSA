@@ -6,43 +6,46 @@
  *     TreeNode *right;
  *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
  *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left),
+ * right(right) {}
  * };
  */
 class Solution {
 public:
-    void solve(TreeNode* root,long long targetSum,long long value,int &cnt){
-        if(value==targetSum){
-            cnt++;
-        }
-        if(!root->left&&!root->right){
+    void solve(TreeNode* root, int targetSum, unordered_map<long long, int>& hash,
+               int& cnt, long long sum) {
+       
+        if (!root) {
             return;
         }
-        if(root->left){
-            solve(root->left,targetSum,value+root->left->val,cnt);
-
+          if (root) {
+            sum += root->val;
         }
-        if(root->right){
-            solve(root->right,targetSum,value+root->right->val,cnt);
+        if (hash.find(sum - targetSum) != hash.end()) {
+            cnt += hash[sum - targetSum];
         }
+       
         
-    }
-    void bfs(TreeNode* root,int targetSum,int &cnt){
-        if(!root){
-            return ;
-        }
-        int value=root->val;
-        solve(root,targetSum,value,cnt);
-        if(root->left){
-            bfs(root->left,targetSum,cnt);
+        hash[sum]++;
+
+        if (root->left) {
+            solve(root->left,targetSum,hash,cnt,sum);
         }
         if(root->right){
-            bfs(root->right,targetSum,cnt);
+             solve(root->right,targetSum,hash,cnt,sum);
         }
+        hash[sum]--;
     }
     int pathSum(TreeNode* root, int targetSum) {
-        int cnt=0;
-        bfs(root,targetSum,cnt);
+        // dfs with unordered_map
+        if(!root){
+            return 0;
+        }
+        unordered_map<long long, int> hash;
+        hash[0] = 1;
+        int cnt = 0;
+        long long sum = 0;
+        solve(root, targetSum, hash, cnt, sum);
         return cnt;
     }
 };
