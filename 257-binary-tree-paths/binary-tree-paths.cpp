@@ -11,31 +11,22 @@
  */
 class Solution {
 public:
-    void solve(TreeNode* root,string s,vector<string>&ans){
-        // proper leaf node
+    void solve(TreeNode* root,string path,vector<string>&answer){
         if(!root->left&&!root->right){
-            s+=to_string(root->val);
-            ans.push_back(s);
+            answer.push_back(path);
             return;
-        }
-        s+=to_string(root->val);
-        
-          s += "->";
-        
-        if(root->left){
-         solve(root->left,s,ans);
-        }
-        if(root->right){
-            solve(root->right,s,ans);
-        }
+    }
+    if(root->left){
+        solve(root->left,path+"->"+to_string(root->left->val),answer);
+    }
+    if(root->right){
+        solve(root->right,path+"->"+to_string(root->right->val),answer);
+    }
     }
     vector<string> binaryTreePaths(TreeNode* root) {
-        string s="";
-        vector<string>ans;
-        solve(root,s,ans);
-        for(auto&it:ans){
-            cout<<it<<" ";
-        }
-        return ans;
+        string path=to_string(root->val);
+        vector<string>answer;
+        solve(root,path,answer);
+        return answer;
     }
 };
