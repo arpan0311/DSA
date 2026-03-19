@@ -11,15 +11,16 @@
  */
 class Solution {
 public:
-    void path(TreeNode* root,string s,vector<string>&ans){
+    void path(TreeNode* root,string s,string& ans){
         if(!root->left&&!root->right){
             s.push_back(root->val+'a');
            reverse(s.begin(),s.end());
-            ans.push_back(s);
+            if(ans.empty()||ans>s){
+                ans=s;
+            }
             return;
         }
         if(root->left){
-
             s.push_back(root->val+'a');
             path(root->left,s,ans);
            s.pop_back();
@@ -33,11 +34,8 @@ public:
     string smallestFromLeaf(TreeNode* root) {
         vector<string>answer;
         string s="";
-        path(root,s,answer);
-        sort(answer.begin(),answer.end());
-        for(int i=0;i<answer.size();i++){
-            cout<<answer[i]<<" ";
-        }
-        return answer[0];
+        string ans="";
+        path(root,s,ans);
+        return ans;
     }
 };
