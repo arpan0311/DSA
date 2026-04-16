@@ -1,32 +1,33 @@
 class Solution {
 public:
-    void bfs(vector<vector<int>>&adj,vector<int>&vis,int node){
+    void dfs(int node,vector<vector<int>>&adj,vector<int>&vis){
         vis[node]=1;
-      
         for(auto&it:adj[node]){
             if(!vis[it]){
-                bfs(adj,vis,it);
+                dfs(it,adj,vis);
             }
         }
     }
-    int findCircleNum(vector<vector<int>>& mat) {
-        int n=mat.size();
-        vector<vector<int>>adj(n);
-        for(int i=0;i<mat.size();i++){
-            for(int j=0;j<mat[i].size();j++){
-                if(mat[i][j]==1&&i!=j){
-                    adj[i].push_back(j);
-                    adj[j].push_back(i);
-                }
+    int findCircleNum(vector<vector<int>>& is) {
+        // I have to count how many group is there(undirected graph)
+        int n=is.size();
+        int cnt=0;
+        vector<int>vis(n+1,0);
+        vector<vector<int>> adj(n+1);
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < n; j++) {
+            if(is[i][j] == 1&&i!=j) {
+                adj[i].push_back(j);
+                adj[j].push_back(i);
             }
         }
-   
-        vector<int> vis(n, 0); 
-        int cnt=0;
+    }
+
+    // now I have adj list 
         for(int i=0;i<n;i++){
             if(!vis[i]){
                 cnt++;
-                bfs(adj,vis,i);
+                dfs(i,adj,vis);
             }
         }
         return cnt;
