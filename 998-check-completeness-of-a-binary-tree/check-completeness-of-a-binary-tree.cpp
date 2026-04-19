@@ -12,44 +12,20 @@
  */
 class Solution {
 public:
-    bool bfs(TreeNode* root) {
-        if (!root) {
-            return true;
-        }
-        queue<TreeNode*> q;
-        q.push(root);
-        bool seenNull = false;
-        while (!q.empty()) {
-            int node = q.size();
+int countNodes(TreeNode* root) {
+    if (!root) return 0;
+    
+    return 1 + countNodes(root->left) + countNodes(root->right);
+}
+   bool dfs(TreeNode* root, int index, int n) {
+    if (!root) return true;
+    if (index >= n) return false;
 
-            for (int i = 0; i < node; i++) {
-                TreeNode* curr = q.front();
-                // right exist but left doesn't exist
-                if (curr->right && !curr->left) {
-                    return false;
-                }
-                // curr exist but previous doesn't
-                if (seenNull && (curr->left || curr->right)) {
-                    return false;
-                }
-                // both exist
+    return dfs(root->left, 2*index+1, n) &&
+           dfs(root->right, 2*index+2, n);
+}
 
-                if (curr->left) {
-                    q.push(curr->left);
-                } else {
-                    seenNull = true;
-                }
-                if (curr->right) {
-                    q.push(curr->right);
-                }
-                else{
-                    seenNull = true;
-                }
-               
-                q.pop();
-            }
-        }
-        return true;
-    }
-    bool isCompleteTree(TreeNode* root) { return bfs(root); }
+    bool isCompleteTree(TreeNode* root) {
+    int n=countNodes(root);
+    return dfs(root,0,n); }
 };
