@@ -1,38 +1,41 @@
 class Solution {
 public:
     vector<vector<int>> fourSum(vector<int>& nums, int target) {
-        set<vector<int>> st;
-        int n = nums.size();
-        if(nums.size()<4){
-            return {};
-        }
         sort(nums.begin(), nums.end());
-        for (int i = 0; i < n; i++) {
+        int n = nums.size();
+        vector<vector<int>> answer;
 
-            for (int j = i + 1; j < n; j++) {
-                unordered_map<int, int> hash;
-                // hash[0] = 1;
-                for (int k = j + 1; k < n; k++) {
-              
-                    long long sum = 1LL * nums[i] + nums[j] + nums[k];
-                    long long need = 1LL * target - sum;
+        for (int i = 0; i < n - 3; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
 
-                    // only search if need fits in int
-                    if (need >= INT_MIN && need <= INT_MAX) {
-                        if (hash.find((int)need) != hash.end()) {
-                            vector<int> temp = {nums[i], nums[j], nums[k], (int)need};
-                            sort(temp.begin(), temp.end());
-                            st.insert(temp);
-                        }
+            for (int j = i + 1; j < n - 2; j++) {
+                if (j > i + 1 && nums[j] == nums[j - 1]) continue; 
+
+                int k = j + 1, l = n - 1;
+
+                while (k < l) {
+                    long long sum = (long long)nums[i] + nums[j] + nums[k] + nums[l];
+
+                    if (sum == target) {
+                        answer.push_back({nums[i], nums[j], nums[k], nums[l]});
+
+                        
+                        while (k < l && nums[k] == nums[k + 1]) k++;
+                       
+                        while (k < l && nums[l] == nums[l - 1]) l--;
+
+                        k++;
+                        l--;
+                    } 
+                    else if (sum < target) {
+                        k++;
+                    } 
+                    else {
+                        l--;
                     }
-
-                    hash[nums[k]]++;
                 }
-               
             }
         }
-
-        vector<vector<int>> res(st.begin(), st.end());
-        return res;
+        return answer;
     }
 };
