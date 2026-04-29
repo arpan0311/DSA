@@ -24,7 +24,7 @@ public:
         curr=nxt;
         nxt=nxt->next;
       }
-       curr->next = prev;  
+       curr->next=prev;  
         return curr;
     }
 };
