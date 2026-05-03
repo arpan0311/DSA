@@ -1,48 +1,29 @@
 class Solution {
 public:
-    // int dp[301][5001];
-    // int solve(vector<int>& coins, int amount, int i) {
-    //     if (i >= coins.size()) {
-    //         if (amount == 0) {
-    //             return 1;
-    //         }
-    //         return 0;
-    //     }
-    //     if (dp[i][amount] != -1) {
-    //         return dp[i][amount];
-    //     }
-    //     int take = 0;
-    //     if (coins[i] <= amount) {
-    //         take = solve(coins, amount - coins[i], i);
-    //     }
-    //     int notTake = solve(coins, amount, i + 1);
-    //     return dp[i][amount] = take + notTake;
-    // }
-    int change(int amount, vector<int>& coins) {
-        // sort(coins.begin(),coins.end());
-        // memset(dp,-1,sizeof(dp));
-        // return solve(coins,amount,0);
-        int dp[301][5001];
-        memset(dp, 0, sizeof(dp));
-        for (int i = 0; i <= amount; i++) {
-            dp[0][i] = 0;
-        }
-        for (int i = 0; i <= coins.size(); i++) {
-            dp[i][0] = 1;
-        }
-        int n = coins.size();
-        dp[0][0] = 1;
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= amount; j++) {
-                long long take = 0;
-                if (coins[i - 1] <= j) {
-                    // in this case I used n-1th index so I write here i not i-1
-                    take = dp[i][j - coins[i - 1]];
-                }
-                long long nottake = dp[i - 1][j];
-                dp[i][j] = take + nottake;
+#define ll long long
+    ll dp[5001][301];
+    // const ll mod = 1e9 + 7;/
+    ll arpan(vector<int>& nums, ll sum, int ind) {
+        if (sum == 0)
+            return 1;
+        if (sum < 0)
+            return 0;
+
+        if (dp[sum][ind] != -1)
+            return dp[sum][ind];
+
+        ll ways = 0;
+
+        for (int i = ind; i < nums.size(); i++) {
+            if (sum - nums[i] >= 0) {
+                ways = (ways + arpan(nums, sum - nums[i], i)) ;
             }
         }
-        return dp[n][amount];
+
+        return dp[sum][ind] = ways;
+    }
+    int change(int sum, vector<int>& nums) {
+        memset(dp, -1, sizeof(dp));
+        return arpan(nums, sum, 0);
     }
 };
