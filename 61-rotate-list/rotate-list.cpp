@@ -14,27 +14,28 @@ public:
         if(head==NULL||head->next==NULL){
             return head;
         }
-        vector<int>ans;
+        int len=1;
         ListNode* temp=head;
-        while(temp!=NULL){
-            ans.push_back(temp->val);
+        // .count length 
+        while(temp->next!=NULL){
+            len++;
             temp=temp->next;
         }
-        int n=ans.size();
-        k=k%n;
-        reverse(ans.begin(),ans.end());
-        reverse(ans.begin(),ans.begin()+k);
-        reverse(ans.begin()+k,ans.end());
-        head=new ListNode(ans[0]);
-      
-        ListNode* curr=head;
-      
-        // curr->next=head;
-        for(int i=1;i<ans.size();i++){
-            head->next=new ListNode(ans[i]);
-            head=head->next;
-            // curr->next=head;
+        k=k%len;
+        if(k==0){
+            return head;
         }
-        return curr;
+    //    last wale ko head se connext karo 
+        temp->next=head;
+        int rem=len-k;
+        ListNode* newhead=head;
+        
+        for(int i=1;i<rem;i++){
+            newhead=newhead->next;
+        }
+        // toodooo
+        ListNode* head1=newhead->next;
+        newhead->next=NULL;
+        return head1;
     }
 };
