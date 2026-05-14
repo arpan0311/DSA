@@ -1,27 +1,45 @@
 class Solution {
 public:
-int dp[501][501];
-    int solve(string &s1,string &s2,int i,int j){
-        if(i<0){
-            return j+1;
+// int dp[501][501];
+//     int solve(string &s1,string &s2,int i,int j){
+//         if(i<0){
+//             return j+1;
+//         }
+//         if(j<0){
+//             return i+1;
+//         }
+//         if(dp[i][j]!=-1){
+//             return dp[i][j];
+//         }
+//         if(s1[i]==s2[j]){
+//             return dp[i][j]=solve(s1,s2,i-1,j-1);
+//         }
+//         else{
+//             // add replace delete 
+//             return dp[i][j]=1+min(solve(s1,s2,i,j-1),min(solve(s1,s2,i-1,j-1),solve(s1,s2,i-1,j)));
+//         }
+//     }
+    int minDistance(string s1, string s2) {
+        int n=s1.length(),m=s2.length();
+        vector<vector<int>>dp(n+1,vector<int>(m+1,0));
+        // base case 
+        for(int j=0;j<=m;j++){
+            dp[0][j]=j;
         }
-        if(j<0){
-            return i+1;
+         for(int j=0;j<=n;j++){
+            dp[j][0]=j;
         }
-        if(dp[i][j]!=-1){
-            return dp[i][j];
+
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=m;j++){
+                if(s1[i-1]==s2[j-1]){
+                    dp[i][j]=dp[i-1][j-1];
+                }
+                else{
+                    dp[i][j]=1+min(dp[i-1][j-1],min(dp[i][j-1],dp[i-1][j]));
+                }
+            }
         }
-        if(s1[i]==s2[j]){
-            return dp[i][j]=solve(s1,s2,i-1,j-1);
-        }
-        else{
-            // add replace delete 
-            return dp[i][j]=1+min(solve(s1,s2,i,j-1),min(solve(s1,s2,i-1,j-1),solve(s1,s2,i-1,j)));
-        }
-    }
-    int minDistance(string word1, string word2) {
-        int n=word1.length(),m=word2.length();
-        memset(dp,-1,sizeof(dp));
-        return solve(word1,word2,n-1,m-1);
+        return dp[n][m];
     }
 };
