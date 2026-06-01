@@ -1,31 +1,25 @@
 class Solution {
 public:
-int dp[1001];
-int solve(vector<int>&nums,int i,int &k){
-    if(i==nums.size()){
-        return 0;
-    }
-    if(dp[i]!=-1){
-        return dp[i];
-    }
-    unordered_map<int,int>hash;
-    int answer=INT_MAX;
-    int trim=0;
-    for(int j=i;j<nums.size();j++){
-        hash[nums[j]]++;
-
-        if(hash[nums[j]]==2){
-            trim+=2;
-        }
-        else if(hash[nums[j]]>2){
-            trim+=1;
-        }
-        answer=min(answer,k+trim+solve(nums,j+1,k));
-    }
-    return dp[i]=answer;
-}
     int minCost(vector<int>& nums, int k) {
-        memset(dp,-1,sizeof(dp));
-        return solve(nums,0,k);
+        int n = nums.size();
+        vector<int> dp(n + 1, INT_MAX);
+        dp[n] = 0;
+        for(int i=n-1;i>=0;i--) {
+            unordered_map<int,int> freq;
+            int trim = 0;
+            for(int j=i;j<n;j++) {
+                freq[nums[j]]++;
+
+                if(freq[nums[j]]==2)
+                    trim += 2;
+                else if(freq[nums[j]]>2)
+                    trim++;
+
+                dp[i] = min(dp[i],
+                            k + trim + dp[j+1]);
+            }
+        }
+
+        return dp[0];
     }
 };
