@@ -11,16 +11,31 @@ public:
                 mat[i][k] = 0;
             }
         }
-    }
+    }    
+
         void setZeroes(vector<vector<int>> & matrix) {
-            vector<pair<int, int>> container;
+            
+            set<int>row,col;
             for (int i = 0; i < matrix.size(); i++) {
                 for (int j = 0; j < matrix[0].size(); j++) {
                     if (matrix[i][j] == 0) {
-                        container.push_back({i, j});
+                      
+                        row.insert(i);
+                        col.insert(j);
+                       
                     }
+
                 }
             }
-            solve(container, matrix);
+            for(auto&it:row){
+                for(int j=0;j<matrix[0].size();j++){
+                    matrix[it][j]=0;
+                }
+            }
+            for(auto&it:col){
+                for(int j=0;j<matrix.size();j++){
+                    matrix[j][it]=0;
+                }
+            }
         }
     };
