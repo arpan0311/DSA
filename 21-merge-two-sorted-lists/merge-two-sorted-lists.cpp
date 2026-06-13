@@ -11,35 +11,47 @@
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        if(list1==NULL&&list2!=nullptr){
+            return list2;
+        }
+        else if(list1!=NULL&&list2==nullptr){
+            return    list1;  
+        }
+        else if(list1==NULL&&list2==nullptr){
+            return nullptr;
+        }
 
-        ListNode* dummy = new ListNode();
-        ListNode* current = dummy;
 
-        while (list1 != NULL && list2 != NULL) {
-            if (list1->val <= list2->val) {
-                current->next = new ListNode(list1->val);
-                current = current->next;
+
+        ListNode* head=new ListNode(-1);
+        ListNode* read_head=head;
+        while(list1!=nullptr&&list2!=nullptr){
+            if(list1->val<list2->val){
+                head->next=list1;
                 list1=list1->next;
-            } else {
-                current->next = new ListNode(list2->val);
-                current = current->next;
-                list2=list2->next;
+                  head=head->next;
             }
-        }
-           while(list1!=NULL){
-            current->next = new ListNode(list1->val);
-            current = current->next;
-            list1=list1->next;
-        }
-
-           while(list2!=NULL){
-            current->next = new ListNode(list2->val);
-            current = current->next;
-            list2=list2->next;
+            else{
+                head->next=list2;
+                list2=list2->next;
+                  head=head->next;
+            }
+          
         }
 
-        ListNode* meardedHead=dummy->next;
-        delete dummy;
-        return meardedHead;
+        while(list1!=nullptr){
+              head->next=list1;
+                list1=list1->next;
+                  head=head->next;
+        }
+
+    while(list2!=nullptr){
+              head->next=list2;
+                list2=list2->next;
+                  head=head->next;
+        }
+
+        read_head=read_head->next;
+        return read_head;
     }
 };
