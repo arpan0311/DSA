@@ -1,12 +1,13 @@
 class Solution {
 public:
+// one solution is nums[i] value ko as index treat karo but isme array modify hoga to woh ni kar sakte ... na...
     int findDuplicate(vector<int>& nums) {
-        unordered_map<int,int>hash;
-        for(auto&it:nums){
-            if(hash.find(it)!=hash.end()){
-                return it;
+         for(int i=0;i<nums.size();i++){
+            int val=abs(nums[i]);
+            if(nums[val-1]<0){
+                return abs(nums[i]);
             }
-            hash[it]++;
+            nums[val-1]=-1*nums[val-1];
         }
         return -1;
     }
