@@ -1,32 +1,22 @@
 class Solution {
 public:
     int maximumBeauty(vector<int>& nums, int k) {
-        // using binary search 
-        int res=0;
-        int n=nums.size();
-        sort(nums.begin(),nums.end());
-        for(int i=0;i<nums.size();i++){
-            int find=nums[i]+2*k;
-            int low=i+1,high=n-1;
-            int ans=i;
-            while(low<=high){
-                int mid=low+(high-low)/2;
-                if(nums[mid]>find){
-                    high=mid-1;
-                }
-                else if(nums[mid]<find){
-                    // save and move;
-                    ans=mid;
-                    low=mid+1;
-                }
-                else{
-                    // save and move
-                    ans=mid;
-                    low=mid+1;
-                }
+        int n = nums.size();
+        sort(begin(nums), end(nums));
+        int i = 0;
+        int j = 0;
+
+        int maxBeauty = 0;
+
+        while (i < n) {
+            while (j < n && nums[j] <= nums[i] + 2 * k) { // y <= x + 2*k
+                j++;
             }
-            res=max(res,ans-i+1);
+
+            maxBeauty = max(maxBeauty, j - i);
+            i++;
         }
-        return res;
+
+        return maxBeauty;
     }
 };
