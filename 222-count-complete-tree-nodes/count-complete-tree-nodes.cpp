@@ -11,21 +11,34 @@
  */
 class Solution {
 public:
-    void inorder(TreeNode* root,int &cnt){
-        if(!root){
-            return ;
-        }
-        if(root->left){
-            inorder(root->left,cnt);
-        }
-        cnt++;
-        if(root->right){
-            inorder(root->right,cnt);
-        }
+int left_height(TreeNode* left){
+    TreeNode* temp=left;
+    int lh=0;
+    while(temp!=nullptr){
+        lh++;
+        temp=temp->left;
     }
+    return lh;
+}
+int right_height(TreeNode* right){
+    TreeNode* temp=right;
+    int rh=0;
+    while(temp!=nullptr){
+        rh++;
+        temp=temp->right;
+    }
+    return rh;
+}
     int countNodes(TreeNode* root) {
-        int cnt=0;
-        inorder(root,cnt);
-        return cnt;
+        if(!root){
+            return 0;
+        }
+        int lh=left_height(root);
+        int rh=right_height(root);
+
+        if(lh==rh){
+            return pow(2,lh)-1;
+        }
+        return 1+ countNodes(root->left) + countNodes(root->right);
     }
 };
