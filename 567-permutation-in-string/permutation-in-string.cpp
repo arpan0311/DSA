@@ -1,28 +1,31 @@
 class Solution {
 public:
-    bool checkInclusion(string s1, string s2) {
-        unordered_map<char,int>hash;
-
-        for(int i=0;i<s1.length();i++){
-            hash[s1[i]]++;
+  bool isTrue(vector<int>& ans) {
+        for(int i=0; i<26; i++){
+            if(ans[i] != 0){
+                return false;
+            }
         }
+        return true;
+    }
+    bool checkInclusion(string s1, string s) {
+         vector<int> ans(26, 0);   // frequency of p
+        for(char ch : s1){
+            ans[ch - 'a']++;
+        }
+        int i = 0, j = 0;
 
-        unordered_map<char,int>hash1;
-        int i=0;
-        int j=0;
-        while(i<s2.size()){
-            hash1[s2[i]]++;
-            while(i-j+1>s1.length()){
-              hash1[s2[j]]--;
-              if(hash1[s2[j]]==0){
-                hash1.erase(s2[j]);
-              }
-              j++;
+        while(j < s.length()){
+            ans[s[j] - 'a']--;   // take current char into window
+
+            if(j - i + 1 == s1.length()){  // window size reached
+                if(isTrue(ans)){
+                   return true;
+                }
+                ans[s[i] - 'a']++;  // remove left char
+                i++;
             }
-            if(hash1==hash){
-                return true;
-            }
-            i++;
+            j++;
         }
 
         return false;
