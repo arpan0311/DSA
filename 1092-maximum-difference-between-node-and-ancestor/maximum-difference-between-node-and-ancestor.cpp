@@ -10,21 +10,30 @@
  * };
  */
 class Solution {
-public: 
-    void bfs(TreeNode* root,int maxi,int mini,int &max_diff){
-        if(!root){
-            return;
-        }
-        maxi=max(maxi,root->val);
-        mini=min(mini,root->val);
-        max_diff=max(max_diff,abs(maxi-mini));
-        bfs(root->left,maxi,mini,max_diff);
-        bfs(root->right,maxi,mini,max_diff);
+public:
+void dfs(TreeNode* root,int& diff,int maxi,int mini){
+    if(!root){
+        return ;
     }
+    maxi=max(maxi,root->val);
+    mini=min(mini,root->val);
+    diff=max(diff,abs(maxi-mini));
+    if(root->left){
+        dfs(root->left,diff,maxi,mini);
+    }
+    if(root->right){
+        dfs(root->right,diff,maxi,mini);
+    }
+
+}
     int maxAncestorDiff(TreeNode* root) {
-        int maxi=root->val,mini=root->val;
-        int max_diff=abs(maxi-mini);
-        bfs(root,maxi,mini,max_diff);
-        return max_diff;
+        if(!root){
+            return 0;
+        }
+        int diff=0;
+        int maxi=root->val;
+        int mini=root->val;
+        dfs(root,diff,maxi,mini);
+        return diff;
     }
 };
