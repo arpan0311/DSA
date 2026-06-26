@@ -1,60 +1,36 @@
 class Solution {
 public:
-    bool areEqual(unordered_map<int, int>& mp1, unordered_map<int, int>& mp2) {
-        if (mp1.size() != mp2.size()) {
-            return false;
-        }
-
-        for (auto& it : mp1) {
-            if (mp2.find(it.first) == mp2.end() || mp2[it.first] != it.second) {
+    bool isTrue(vector<int>& ans) {
+        for(int i=0; i<26; i++){
+            if(ans[i] != 0){
                 return false;
             }
         }
-
         return true;
     }
-    vector<int> findAnagrams(string nums, string p) {
 
-        if (nums.length() < p.length()) {
-            return {};
+    vector<int> findAnagrams(string s, string p) {
+        vector<int> ans(26, 0);   // frequency of p
+        for(char ch : p){
+            ans[ch - 'a']++;
         }
 
-        unordered_map<int, int> temp;
-        // save elements of
-        for (int i = 0; i < p.length(); i++) {
-            temp[p[i]]++;
-        }
-
-        int i = 0, j = 0;
         vector<int> result;
-        unordered_map<int, int> hash;
-        while (j < nums.size()) {
-            hash[nums[j]]++;
+        int i = 0, j = 0;
 
-            // filter...
-            while (i <= j && temp.find(nums[i]) == temp.end()) {
-               if (hash[nums[i]] == 1) {
-                    hash.erase(nums[i]);
-                } else {
-                    hash[nums[i]]--;
-                }
-                i++;
-            }
-            // valid triming
-            if (j - i + 1 == p.length()) {
-                if (areEqual(hash, temp)) {
+        while(j < s.length()){
+            ans[s[j] - 'a']--;   // take current char into window
+
+            if(j - i + 1 == p.length()){  // window size reached
+                if(isTrue(ans)){
                     result.push_back(i);
                 }
-                if (hash[nums[i]] == 1) {
-                    hash.erase(nums[i]);
-                } else {
-                    hash[nums[i]]--;
-                }
-
+                ans[s[i] - 'a']++;  // remove left char
                 i++;
             }
             j++;
         }
+
         return result;
     }
 };
