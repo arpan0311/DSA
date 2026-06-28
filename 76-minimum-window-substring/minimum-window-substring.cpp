@@ -1,43 +1,48 @@
 class Solution {
 public:
+    bool solve(vector<int>& a, vector<int>& b) {
+        int i = 0;
+        while (i < a.size()) {
+            // agar 0 frequency hai to bhada do..
+            if (a[i] == 0) {
+                i++;
+                continue;
+            }
+            if (a[i] > b[i]) {
+                return false;
+            }
+            i++;
+        }
+        return true;
+    }
     string minWindow(string s, string t) {
-        unordered_map<char, int> hash;
-        if (s.length() < t.length()) {
+        if (t.length() > s.length()) {
             return "";
         }
-        int req = t.size();
-        for (auto& it : t) {
-            hash[it]++;
+        vector<int> a(256, 0);
+        for (int i = 0; i < t.size(); i++) {
+            a[t[i]]++;
         }
-        int st = 0;
-        int window_size = INT_MAX;
-        int j = 0, i = 0, n = s.length();
-        while (j < n) {
-            // agar sub kuch hai map mein...
-            if (hash[s[j]] > 0) {
-                req--;
-            }
-
-            // condition to be ... shirink...
-            while (req == 0 && i <= j) {
-                int curr = j - i + 1;
-                if (window_size > curr) {
-                    st = i;
-                    window_size = min(window_size, curr);
+        int n = s.length();
+        int s1 = -1;
+        int i = 0, j = 0;
+        int len = INT_MAX;
+        vector<int> b(256, 0);
+        while (j < s.length()) {
+            b[s[j]]++;
+            while (i <= j && solve(a, b)) {
+                if (j - i + 1 < len) {
+                    len = j - i + 1;
+                    s1 = i;
                 }
-                hash[s[i]]++;
-                if (hash[s[i]] > 0) {
-                    req++;
-                }
+                b[s[i]]--;
                 i++;
             }
-            hash[s[j]]--;
             j++;
         }
-
-        if (window_size == INT_MAX) {
+        if(s1==-1){
             return "";
         }
-        return s.substr(st, window_size);
+        return s.substr(s1, len);
     }
 };
