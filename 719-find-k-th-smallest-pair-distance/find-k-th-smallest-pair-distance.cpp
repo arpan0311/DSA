@@ -1,23 +1,16 @@
 class Solution {
 public:
     int smallestDistancePair(vector<int>& nums, int k) {
-
-       int mx=*max_element(nums.begin(),nums.end());
-       vector<int>answer(mx+1,0);
+        vector<int>answer;
         for(int i=0;i<nums.size()-1;i++){
             for(int j=i+1;j<nums.size();j++){
                 int diff=abs(nums[i]-nums[j]);
-                answer[diff]++;
+                answer.push_back(diff);
             }
         }
-
-        for(int i=0;i<=mx;i++){
-            k-=answer[i];
-            if(k<=0){
-                return i;
-            }
-        }       
         
-        return -1;
+    
+        nth_element(answer.begin(),answer.begin()+(k-1),answer.end());
+        return answer[k-1];
     }
 };
