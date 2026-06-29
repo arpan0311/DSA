@@ -2,8 +2,8 @@ class Solution {
 public:
     int maxSubarraySumCircular(vector<int>& nums) {
         int totalSum = 0;
-        int maxKadane = nums[0], currentMax = 0;
-        int minKadane = nums[0], currentMin = 0;
+        int maxKadane = INT_MIN, currentMax = 0;
+        int minKadane = 0, currentMin = 0;
 
         for (int num : nums) {
             currentMax = max(num, currentMax + num);
