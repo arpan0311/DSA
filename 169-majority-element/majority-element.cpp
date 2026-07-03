@@ -1,20 +1,17 @@
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
-        int answer=nums[0];
-        int cnt=1;
-        for(int i=1;i<nums.size();i++){
-            if(nums[i]==answer){
-                cnt++;
-            }
-            else{
-                cnt--;
-            }
-            if(cnt<0){
-                cnt=1;
-                answer=nums[i];
+        unordered_map<int,int>hash;
+        for(int i=0;i<nums.size();i++){
+            hash[nums[i]]++;
+        }
+        int n=nums.size();
+        int time=(n+1)/2;
+        for(auto&it:hash){
+            if(it.second>=time){
+                return it.first;
             }
         }
-        return answer;
+        return -1;
     }
 };
