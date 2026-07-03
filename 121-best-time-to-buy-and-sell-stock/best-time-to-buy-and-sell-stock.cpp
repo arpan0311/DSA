@@ -1,20 +1,14 @@
 class Solution {
 public:
- // using dp
-    int solve(vector<int>& prices, int i, int mini, int &maxProfit) {
-        if (i == prices.size()) {
-            return 0;
+    int maxProfit(vector<int>& nums) {
+        int profit =0,min_price=nums[0];
+        for(int i=1;i<nums.size();i++){
+            profit=max(profit,nums[i]-min_price);
+            min_price=min(min_price,nums[i]);
         }
-        mini=min(mini,prices[i]);
-        maxProfit=max(maxProfit,prices[i]-mini);
-        
-        
-        return solve(prices,i+1,mini,maxProfit);;
-    }
-    int maxProfit(vector<int>& prices) {
-        int maxProfit=0;
-        int mini=prices[0];
-         solve(prices,0,mini,maxProfit);
-        return maxProfit;
+        return profit;
     }
 };
+// profit = sell - buy 
+// inc -> sell 
+// dec buy 
