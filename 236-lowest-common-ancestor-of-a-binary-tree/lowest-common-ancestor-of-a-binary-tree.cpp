@@ -15,10 +15,11 @@ public:
             return false;
         }
         path.push_back(root);
-        if(root==p){
+       
+        if(getPath(root->left,p,path)||getPath(root->right,p,path)){
             return true;
         }
-        if(getPath(root->left,p,path)||getPath(root->right,p,path)){
+         if(root==p){
             return true;
         }
        
