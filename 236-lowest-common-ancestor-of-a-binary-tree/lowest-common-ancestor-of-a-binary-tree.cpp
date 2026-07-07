@@ -9,19 +9,36 @@
  */
 class Solution {
 public:
+    // find the path of bruteforce 
+    bool getPath(TreeNode* root,TreeNode* p,vector<TreeNode*>&path){
+        if(!root){
+            return false;
+        }
+        path.push_back(root);
+        if(root==p){
+            return true;
+        }
+        if(getPath(root->left,p,path)||getPath(root->right,p,path)){
+            return true;
+        }
+       
+        path.pop_back();
+        return false;
+    }
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        // base case
-        if (root == NULL || root == p || root == q) {
-            return root;
+        vector<TreeNode*>a,b;
+        TreeNode* temp=root;
+        getPath(temp,p,a);
+        getPath(root,q,b);
+        TreeNode* prev=nullptr;
+
+        for(int i=0;i<min(a.size(),b.size());i++){
+            if(a[i]!=b[i]){
+                return prev;
+            }
+            prev=a[i];
         }
-        TreeNode* rootleft = lowestCommonAncestor(root->left, p, q);
-        TreeNode* rootright = lowestCommonAncestor(root->right, p, q);
-        if (rootleft == nullptr) {
-            return rootright;
-        } else if (rootright == nullptr) {
-            return rootleft;
-        } else {
-            return root;
-        }
+
+        return prev;
     }
 };
