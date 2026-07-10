@@ -11,27 +11,22 @@
  */
 class Solution {
 public:
-    string solve(TreeNode* root,unordered_map<string,int>&hash,vector<TreeNode*>&res){
+    string dfs(TreeNode* root,vector<TreeNode*>&answer,unordered_map<string,int>&hash){
         if(!root){
-            return "N";
+             return "N";
         }
-
-        string s=to_string(root->val)+","+solve(root->left,hash,res)+","+solve(root->right,hash,res);
+        string s=to_string(root->val)+","+dfs(root->left,answer,hash)+","+dfs(root->right,answer,hash);
+        // only second time 
         if(hash[s]==1){
-            res.push_back(root);
+            answer.push_back(root);
         }
         hash[s]++;
         return s;
     }
     vector<TreeNode*> findDuplicateSubtrees(TreeNode* root) {
         unordered_map<string,int>hash;
-
         vector<TreeNode*>answer;
-
-        solve(root,hash,answer);
-
+        dfs(root,answer,hash);
         return answer;
-
     }
-
 };
