@@ -2,12 +2,13 @@ class Solution {
 public:
 const int mod=1e9+7;
     int valueAfterKSeconds(int n, int k) {
-        vector<long long>ans(n,1);
-        while(k--){
-            for(int i=1;i<n;i++){
-                ans[i]=(ans[i]+ans[i-1])%mod;
+        vector<int>curr(k+1,1),prev(k+1,1);
+        for(int i=1;i<n;i++){
+            for(int j=1;j<=k;j++){
+                curr[j]=(prev[j]+curr[j-1])%mod;
             }
+            prev=curr;
         }
-        return ans[n-1]%mod;
+        return curr[k];
     }
 };
