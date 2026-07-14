@@ -9,14 +9,16 @@ public:
     int prev = -1;
 
     void update(int t, int price) {
-        if (st.count({hash[t],t})) {
-            // erase price and time 
-            st.erase({hash[t],t});   // erase old pair
-        }
-        st.insert({price, t});
-        hash[t] = price;
-        prev = max(prev, t);
+    auto it = hash.find(t);
+
+    if (it != hash.end()) {
+        st.erase({it->second, t});
     }
+
+    st.insert({price, t});
+    hash[t] = price;
+    prev = max(prev, t);
+}
 
     int current() {
         return hash[prev];
