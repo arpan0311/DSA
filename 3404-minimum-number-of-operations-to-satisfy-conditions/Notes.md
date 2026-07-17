@@ -1,0 +1,1 @@
+<h2>minimum-number-of-operations-to-satisfy-conditions Notes</h2><hr>[ Time taken: 1hr 25m 35s ]
