@@ -1,18 +1,21 @@
 class Solution {
 public:
     int firstMissingPositive(vector<int>& nums) {
-        sort(nums.begin(),nums.end());
-        // only we have positive integers
-        if(nums[0]>1){
+        // better approacch for this question 
+        set<int>st;// all the element in sorted order 
+        for(int i=0;i<nums.size();i++){
+            st.insert(nums[i]);
+        }
+        // simple case 
+        if(*st.begin()>1){
             return 1;
         }
-        int  k=0;
-        // 0  1 2 
-        for(int i=0;i<nums.size();i++){
-            if(nums[i]<=k){
+        int k=0;
+        for(auto&it:st){
+            if(it<=k){
                 continue;
             }
-            else if(nums[i]==k+1){
+            else if(it==k+1){
                 k++;
             }
             else{
@@ -20,5 +23,5 @@ public:
             }
         }
         return k+1;
-    }   
+    }
 };
