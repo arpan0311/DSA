@@ -1,27 +1,36 @@
 class Solution {
 public:
     int firstMissingPositive(vector<int>& nums) {
-        // better approacch for this question 
-        set<int>st;// all the element in sorted order 
+        // this is optimal appraoch for this question 
+        bool check=false;
+        int n=nums.size();
         for(int i=0;i<nums.size();i++){
-            st.insert(nums[i]);
+            if(nums[i]==1){
+                check=true;
+            }
+            else if(nums[i]<1||nums[i]>n){
+                nums[i]=1;
+            }
         }
-        // simple case 
-        if(*st.begin()>1){
+        if(!check){
             return 1;
         }
-        int k=0;
-        for(auto&it:st){
-            if(it<=k){
+
+        for(int i=0;i<nums.size();i++){
+            int  val=abs(nums[i]);
+            int  idx=val-1;
+            // already mark 
+            if(nums[idx]<0){
                 continue;
             }
-            else if(it==k+1){
-                k++;
-            }
-            else{
-                return k+1;
+            nums[idx]=-nums[idx];
+        }
+
+        for(int i=0;i<nums.size();i++){
+            if(nums[i]>0){
+                return i+1;
             }
         }
-        return k+1;
+        return n+1;
     }
 };
