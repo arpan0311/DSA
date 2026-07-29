@@ -1,23 +1,29 @@
 class Solution {
 public:
     int maxSubarraySumCircular(vector<int>& nums) {
-        int totalSum = 0;
-        int maxKadane = INT_MIN, currentMax = 0;
-        int minKadane = 0, currentMin = 0;
-
-        for (int num : nums) {
-            currentMax = max(num, currentMax + num);
-            maxKadane = max(maxKadane, currentMax);
-
-            currentMin = min(num, currentMin + num);
-            minKadane = min(minKadane, currentMin);
-
-            totalSum += num;
+         int total=0;
+        for(auto&it:nums){
+            total+=it;
         }
-
-        // If all numbers are negative, totalSum == minKadane.
-        if (maxKadane < 0) return maxKadane;
-
-        return max(maxKadane, totalSum - minKadane);
+        int mini=total;
+        int curr=0;
+        for(int i=0;i<nums.size();i++){
+           int curr_sum=min(nums[i],curr+nums[i]);
+           curr=curr_sum;
+           mini=min(mini,curr_sum);
+        }
+        int maximum_sum=INT_MIN;
+        curr=0;
+        for(int i=0;i<nums.size();i++){
+           int curr_sum=max(nums[i],curr+nums[i]);
+           curr=curr_sum;
+           maximum_sum=max(maximum_sum,curr_sum);
+        }
+        cout<<mini<<endl;
+        cout<<maximum_sum<<endl;
+        if(total==mini){
+            return maximum_sum;
+        }
+        return max(maximum_sum,total-mini);
     }
 };
