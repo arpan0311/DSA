@@ -1,28 +1,29 @@
 class Solution {
 public:
-   static bool cmp(pair<int,int>&p1,pair<int,int>&p2){
-        if(p1.first==p2.first){
-           return p1.second<p2.second;
+    static bool cmp(vector<int>&a,vector<int>&b){
+        // same end time 
+        if(a[1]==b[1]){
+            return a[0]<b[0];
         }
-        return p1.first<p2.first;
+        return a[1]<b[1];
     }
     int eraseOverlapIntervals(vector<vector<int>>& intervals) {
-        vector<pair<int,int>>answer;
-        for(int i=0;i<intervals.size();i++){
-            answer.push_back({intervals[i][1],intervals[i][0]});
-        }
-        sort(answer.begin(),answer.end(),cmp);
-        int cnt=0;
-        int end=answer[0].first,start=answer[0].second;
-        for(int i=1;i<intervals.size();i++){
-            cout<<answer[i].first<<" "<<answer[i].second<<endl;
-            if(end<=answer[i].second){
-                end=answer[i].first;
-            }
-            else{
+        // two option sort using start time or end time
+        // now I got the point I have to sort it on behalf of end time
+
+        sort(intervals.begin(), intervals.end(),cmp);
+        int cnt = 0;
+        int i = 0;
+        while (i < intervals.size()) {
+            int end_time = intervals[i][1];
+            int j = i + 1;
+            // remove overlap condition
+            while(j<intervals.size()&&end_time>intervals[j][0]){
                 cnt++;
+                j++;
             }
+            i = j;
         }
-        return cnt;;
+        return cnt;
     }
 };
