@@ -1,20 +1,23 @@
 class Solution {
 public:
     bool checkSubarraySum(vector<int>& nums, int k) {
-        // reminder store karo...
         unordered_map<int, int> hash;
-        // int len = 0;
-        int sum = 0;
         hash[0] = -1;
-        for (int i = 0; i < nums.size(); i++) {
+        long long sum = 0;
+        int i = 0;
+        while (i < nums.size()) {
             sum += nums[i];
-            if (hash.find(sum % k) != hash.end()) {
-                if (i - hash[sum % k] >= 2) {
+            int mod = sum % k;
+            if (hash.find(mod) != hash.end()) {
+                if (i - hash[mod] > 1) {
                     return true;
                 }
             } else {
-                hash[sum % k] = i;
+                hash[mod] = i;
             }
+
+            sum = mod;
+            i++;
         }
         return false;
     }
