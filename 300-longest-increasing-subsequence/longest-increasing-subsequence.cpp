@@ -1,31 +1,20 @@
 class Solution {
 public:
-    int binarySearch(vector<int>&temp,int target){
-        int low=0,high=temp.size()-1;
-        int value=high;
-        while(low<=high){
-            int mid=(low+high)/2;
-            if(temp[mid]>=target){
-                value=mid;
-                high=mid-1;
-            }
-            else{
-                low=mid+1;
+vector<int> solve(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> lis(n, 1);
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[i] > nums[j]) {
+                    lis[i] = max(lis[i], 1 + lis[j]);
+                }
             }
         }
-        return  value;
+        return lis;
     }
-        int lengthOfLIS(vector<int>& nums) {
-        vector<int>temp;
-        for(int i=0;i<nums.size();i++){
-            if(temp.empty()||temp.back()<nums[i]){
-                temp.push_back(nums[i]);
-            }
-            else {
-                int ind=binarySearch(temp,nums[i]);
-                temp[ind]=nums[i];
-            }
-        }
-        return temp.size();
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int>answer=solve(nums);
+        return *max_element(answer.begin(),answer.end());
     }
 };
