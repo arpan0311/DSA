@@ -1,31 +1,20 @@
 class Solution {
 public:
-// int dp[1001];
-//     int  arpan(vector<int>&cost,int i){
-
-//         if(i>=cost.size()){
-//             return 0;
-//         } 
-//         if(dp[i]!=-1){
-//             return dp[i];
-//         }
-//         int one=cost[i]+arpan(cost,i+1);
-//         int two=cost[i]+arpan(cost,i+2);
-//         dp[i]=min(one,two);
-//         return dp[i];
-//     }   
+int dp[1000];
+    int solve(int n,int i,vector<int>& cost){
+        if(i>=n){
+            return 0;
+        }
+        if(dp[i]!=-1){
+            return dp[i];
+        }
+        int one=cost[i]+solve(n,i+1,cost);
+        int two=cost[i]+solve(n,i+2,cost);
+        return dp[i]=min(one,two);
+    }
     int minCostClimbingStairs(vector<int>& cost) {
         int n=cost.size();
-        if(n==2){
-            return min(cost[0],cost[1]);
-        }
-        int answer=0;
-
-      for(int i=2;i<cost.size();i++){;
-      cost[i]= cost[i] + min(cost[i-1], cost[i-2]);
-
-      }
-
-      return min(cost[n-1],cost[n-2]);
+        memset(dp,-1,sizeof(dp));
+        return min(solve(n,0,cost),solve(n,1,cost));
     }
 };
