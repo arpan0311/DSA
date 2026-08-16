@@ -12,20 +12,30 @@
  */
 class Solution {
 public:
-int countNodes(TreeNode* root) {
-    if (!root) return 0;
-    
-    return 1 + countNodes(root->left) + countNodes(root->right);
-}
-   bool dfs(TreeNode* root, int index, int n) {
-    if (!root) return true;
-    if (index >= n) return false;
-
-    return dfs(root->left, 2*index+1, n) &&
-           dfs(root->right, 2*index+2, n);
-}
-
     bool isCompleteTree(TreeNode* root) {
-    int n=countNodes(root);
-    return dfs(root,0,n); }
+        if (!root) {
+            return true;
+        }
+        bool flag = false;
+        queue<TreeNode*> q;
+        q.push(root);
+        while (!q.empty()) {
+            int n=q.size();
+            for(int i=0;i<n;i++){
+ TreeNode* curr = q.front();
+                q.pop();
+                if (!curr) {
+                    flag = true;
+                } else {
+                    if (flag) {
+                        return false;
+                    }
+                    q.push(curr->left);
+                    q.push(curr->right);
+                }
+            }
+               
+        }
+        return true;
+    }
 };
