@@ -1,1 +1,1 @@
-<h2>maximum-width-of-binary-tree Notes</h2><hr>[ Time taken: 51m 58s ]
+<h2>maximum-width-of-binary-tree Notes</h2><hr>[ Time taken: 37m 56s ]
