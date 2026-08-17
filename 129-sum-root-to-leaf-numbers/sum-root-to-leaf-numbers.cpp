@@ -11,21 +11,20 @@
  */
 class Solution {
 public:
-    int solve(TreeNode* root,string curr){
+    int solve(TreeNode* root,int curr){
         // case of leaf node 
          if(!root){
             return 0;
         }
+        curr=curr*10+root->val;
         if(!root->left&&!root->right){
-            curr+=to_string(root->val);
-            int num=stoi(curr);
-            return num;
+            return curr;
         }
        
-        return solve(root->left, curr+to_string(root->val))+solve(root->right, curr+to_string(root->val));
+        return solve(root->left, curr)+solve(root->right,curr);
     }
     int sumNumbers(TreeNode* root) {
-        string s="";
+      int s=0;
         return solve(root,s);
     }
 };
