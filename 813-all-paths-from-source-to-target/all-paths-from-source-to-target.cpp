@@ -1,24 +1,22 @@
 class Solution {
 public:
-    void dfs(vector<vector<int>>& graph, int s, vector<int> temp,
-             vector<vector<int>>& answer) {
+    void dfs(vector<vector<int>>& answer, vector<vector<int>>& graph,
+             vector<int> ans, int s) {
         if (s == graph.size() - 1) {
-            answer.push_back(temp);
+            answer.push_back(ans);
             return;
         }
-        // temp.push_back(s);
+
         for (auto& it : graph[s]) {
-            temp.push_back(it);
-            dfs(graph, it, temp, answer);
-            temp.pop_back();
+            ans.push_back(it);
+            dfs(answer, graph, ans, it);
+            ans.pop_back();
         }
-        //  temp.pop_back();
-        return;
     }
     vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
-        vector<int> temp = {0};
         vector<vector<int>> answer;
-        dfs(graph, 0, temp, answer);
+        vector<int> ans = {0};
+        dfs(answer, graph, ans, 0);
         return answer;
     }
 };
