@@ -16,30 +16,41 @@
  *     TreeNode *right;
  *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
  *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left),
- * right(right) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
 class Solution {
 public:
-    TreeNode* build_tree(vector<int>& nums, int left, int right) {
+    int find_len(ListNode* head){
+        int cnt=0;
+        while(head!=nullptr){
+            cnt++;
+            head=head->next;
+        }
+        return cnt;
+    }
+     TreeNode* build_tree(ListNode* head1, int left, int right) {
         if (left > right) {
             return nullptr;
         }
+        ListNode* temp=head1;
         int mid = (left + right) / 2;
-        TreeNode* head = new TreeNode(nums[mid]);
-        head->left = build_tree(nums, left, mid - 1);
-        head->right = build_tree(nums, mid + 1, right);
+        int cnt=0;
+        while(head1->next!=nullptr&&cnt!=mid){
+            cnt++;
+            head1=head1->next;
+        }
+        TreeNode* head = new TreeNode(head1->val);
+        head->left = build_tree(temp, left, mid - 1);
+        head->right = build_tree(temp, mid + 1, right);
         return head;
     }
     TreeNode* sortedListToBST(ListNode* head) {
-        vector<int> nums;
-        // make a array
-        while (head != nullptr) {
-            nums.push_back(head->val);
-            head = head->next;
+        // without extra space using same linkedlist...
+        if(head==nullptr){
+            return  nullptr;
         }
-
-        return build_tree(nums, 0, nums.size() - 1);
+        int len=find_len(head);
+        return build_tree(head,0,len-1);
     }
 };
