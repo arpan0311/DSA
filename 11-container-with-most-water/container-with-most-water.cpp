@@ -4,16 +4,13 @@ public:
         int max_water=0;
         int i=0,j=nums.size()-1;
         while(i<j){
-        int max_height=min(nums[i],nums[j]);
-        int area=(j-i)*max_height;
-        max_water=max(max_water,area);
-            if(nums[i]>nums[j]){
-                // keep i;
-                j--;
+            int curr_water=(j-i)*min(nums[i],nums[j]);
+            max_water=max(max_water,curr_water);
+            if(nums[i]<=nums[j]){
+                i++;
             }
             else{
-                // keep j
-                i++;
+                j--;
             }
         }
         return max_water;
