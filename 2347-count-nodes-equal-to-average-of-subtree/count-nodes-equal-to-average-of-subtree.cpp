@@ -11,35 +11,22 @@
  */
 class Solution {
 public:
-int res=0;
-// here I'm calculating the sum
-    int sum(TreeNode* root,int &cnt){
+    int res=0;
+    pair<int,int>solve(TreeNode* root){
         if(!root){
-            return 0;
+            return {0,0};
         }
-        cnt++;
-        return root->val+sum(root->left,cnt)+sum(root->right,cnt);
-    }
-    // check each root 
-    int answer(TreeNode* root){
-        if(!root){
-            return 0;
-        }
-        int l1=0,l2=0;
-        int left=sum(root->left,l1);
-        int right=sum(root->right,l2);
-        cout<<left<<" "<<right<<" ";
-        cout<<endl;
-        if(root->val==(left+right+root->val)/(l1+l2+1)){
+        pair<int,int>left=solve(root->left);
+        pair<int,int>right=solve(root->right);
+        int sum=root->val+left.first+right.first;
+        int cnt=1+left.second+right.second;
+        if(root->val==sum/cnt){
             res++;
         }
-
-        answer(root->left);
-        answer(root->right);
-        return -1;
+        return {sum,cnt};
     }
     int averageOfSubtree(TreeNode* root) {
-        answer(root);
+        solve(root);
         return res;
     }
 };
